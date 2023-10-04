@@ -1,11 +1,49 @@
 sudo docker volume create first-spark-vol
-sudo docker volume ls
+sudo docker network create --driver bridge first-spark-net
 
-sudo docker run -itd -v first-spark-vol:/mnt/data --name ubuntu-1 ubuntu bash
-sudo docker run -itd -v first-spark-vol:/mnt/data --name ubuntu-2 ubuntu bash
+sudo docker run -itd -v first-spark-vol:/mnt/data --network first-spark-net \
+  -p 7077:7077 -p 4040:4040 -p 8080:8080 --name spark-master spark bash
+sudo docker run -itd -v first-spark-vol:/mnt/data --network first-spark-net \
+  --name spark-worker-1 spark bash
+sudo docker run -itd -v first-spark-vol:/mnt/data --network first-spark-net \
+  --name spark-worker-2 spark bash
 
-sudo docker exec -it ubuntu-1 bash
-sudo docker attach ubuntu-1
+sudo docker exec -it spark-master bash
+sudo docker attach spark-master
 
-sudo docker stop ubuntu-1
+sudo docker stop spark-master
 sudo docker prune -f
+
+
+
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install software-properties-common -y
+sudo apt-get install openjdk-18-jdk -y
+
+export ADMIN_USER=saundr00
+export HOME_DIR=/home/$ADMIN_USER
+echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-arm64" >> ~/.bashrc
+
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get install python3.11 -y
+sudo apt-get install pip -y
+sudo apt-get install python3.11-venv -y
+sudo python3.11 -m venv python3.11
+
+sudo apt-get install wget
+wget https://dlcdn.apache.org/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz
+tar xvzf spark-3.4.1-bin-hadoop3.tgz
+mv spark-3.4.1-bin-hadoop3/ spark/
+rm spark-3.4.1-bin-hadoop3.tgz
+
+echo "export SPARK_HOME=/spark" >> ~/.bashrc
+echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
+. /python3.11/bin/activate
+
+sudo docker build -f Dockerfile.spark -t spark .
+
+sudo docker exec -it docker-master bash -c "spark-submit"
+
+$SPARK_HOME/sbin/start-master.sh
+$SPARK_HOME/sbin/start-worker.sh spark://97980731e3cb:7077
