@@ -1,0 +1,11 @@
+sudo docker volume create first-spark-vol
+sudo docker volume ls
+
+sudo docker run -itd -v first-spark-vol:/mnt/data --name ubuntu-1 ubuntu bash
+sudo docker run -itd -v first-spark-vol:/mnt/data --name ubuntu-2 ubuntu bash
+
+sudo docker exec -it ubuntu-1 bash
+sudo docker attach ubuntu-1
+
+sudo docker stop ubuntu-1
+sudo docker prune -f
