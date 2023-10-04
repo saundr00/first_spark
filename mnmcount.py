@@ -5,12 +5,11 @@ if __name__ == "__main__":
     spark = (SparkSession
         .builder
         .appName("PythonMnMCount")
-        .master("spark://Bobbys-MBP.fios-router.home:7077")
         .getOrCreate())
 
-    mnm_file = "data/mnm_delta"
+    mnm_file = "/mnt/data/mnm_parquet"
 
-    mnm_df = (spark.read.format("delta")
+    mnm_df = (spark.read.format("parquet")
         .load(mnm_file))
     mnm_df.show(n=5, truncate=False)
 
@@ -29,4 +28,3 @@ if __name__ == "__main__":
                        .orderBy("sum(Count)", ascending=False))
 
     ca_count_mnm_df.show(n=10, truncate=False)
-

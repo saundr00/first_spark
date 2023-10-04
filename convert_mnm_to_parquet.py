@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from delta import *
+#from delta import *
 
 if __name__ == "__main__":
     spark = (
@@ -8,7 +8,7 @@ if __name__ == "__main__":
         .appName("PythonMnMCount")
         .getOrCreate())
 
-    mnm_file = "data/mnm_dataset.csv"
+    mnm_file = "/mnt/data/mnm_dataset.csv"
 
     mnm_df = (
         spark.read.format("csv")
@@ -16,6 +16,5 @@ if __name__ == "__main__":
         .option("inferSchema", "true")
         .load(mnm_file))
 
-    path = "data/mnm_parquet"
+    path = "/mnt/data/mnm_parquet"
     mnm_df.write.format("parquet").save(path)
-

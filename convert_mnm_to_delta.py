@@ -8,7 +8,7 @@ if __name__ == "__main__":
         .appName("PythonMnMCount")
         .getOrCreate())
 
-    mnm_file = "data/mnm_dataset.csv"
+    mnm_file = "/mnt/data/mnm_dataset.csv"
 
     mnm_df = (
         spark.read.format("csv")
@@ -16,6 +16,5 @@ if __name__ == "__main__":
         .option("inferSchema", "true")
         .load(mnm_file))
 
-    path = "data/mnm_delta"
+    path = "/mnt/data/mnm_delta"
     mnm_df.write.format("delta").partitionBy("State").save(path)
-
