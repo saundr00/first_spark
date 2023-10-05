@@ -23,6 +23,7 @@ RUN rm spark-3.4.1-bin-hadoop3.tgz
 RUN echo "export SPARK_HOME=/spark" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 RUN echo "export PYSPARK_PYTHON=python3.11" >> ~/.bashrc
+RUN echo "export DATA_DIR=/mnt/data" >> ~/.bashrc
 
 COPY ./code /code
 COPY ./conf /spark/conf

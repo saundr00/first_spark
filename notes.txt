@@ -54,14 +54,7 @@ echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 sudo docker build -f Dockerfile.spark -t spark .
 sudo docker build -f Dockerfile.spark-client -t spark-client .
 
-sudo docker exec -it docker-master bash -c "spark-submit"
-
-$SPARK_HOME/sbin/start-master.sh
-$SPARK_HOME/sbin/start-worker.sh spark://spark-master:7077
-
-
 sudo docker compose -f spark.yml up -d
 sudo docker compose -f spark.yml down
 
-export PYSPARK_DRIVER_PYTHON=jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS='lab --ip 0.0.0.0 --no-browser --allow-root --port 8889'
+pyspark --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension"
