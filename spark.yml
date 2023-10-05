@@ -1,4 +1,18 @@
 services:
+  postgres:
+    image: postgres
+    container_name: postgres-spark-metastore
+    environment:
+      - POSTGRES_DB=metastore_db
+      - POSTGRES_USER=hive
+      - POSTGRES_PASSWORD=hive
+    ports:
+      - 5432:5432
+    networks:
+      - spark-net
+    volumes:
+      - pg-data:/mnt/pg-data
+
   spark-master:
     image: spark
     container_name: spark-master
@@ -13,6 +27,8 @@ services:
       - "8080:8080"
       - "4040:4040"
     #healthcheck:
+    depends_on:
+      - postgres
     networks:
       - spark-net
     volumes:
@@ -80,3 +96,5 @@ networks:
 volumes:
   spark-vol:
     name: spark-vol
+  pg-data:
+    name: pg-data

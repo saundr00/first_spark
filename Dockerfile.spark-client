@@ -29,6 +29,7 @@ RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 RUN echo "export PYSPARK_PYTHON=python3.11" >> ~/.bashrc
 RUN echo "export DATA_DIR=/mnt/data" >> ~/.bashrc
 
+COPY postgresql-42.6.0.jar /spark/jars
 COPY ./code /code
 COPY ./conf /spark/conf
 CMD bash
