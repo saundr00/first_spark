@@ -19,14 +19,17 @@ services:
       - spark-vol:/mnt/data
     
   spark-client:
-    image: spark
+    image: spark-client
     container_name: spark-client
     hostname: "spark-client"
     stdin_open: true
     tty: true
+    #command: "spark/bin/pyspark"
     command: bash
     environment:
       - SPARK_NO_DAEMONIZE=TRUE
+    ports:
+      - "8889:8889"
     networks:
       - spark-net
     volumes_from:

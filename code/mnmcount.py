@@ -4,7 +4,7 @@ from pyspark.sql import SparkSession
 if __name__ == "__main__":
     spark = (SparkSession
         .builder
-        .appName("PythonMnMCount")
+        .appName("MnMCount")
         .getOrCreate())
 
     mnm_file = "/mnt/data/mnm_parquet"

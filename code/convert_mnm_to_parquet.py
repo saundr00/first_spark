@@ -5,7 +5,7 @@ if __name__ == "__main__":
     spark = (
         SparkSession
         .builder
-        .appName("PythonMnMCount")
+        .appName("ConvertToParquet")
         .getOrCreate())
 
     mnm_file = "/mnt/data/mnm_dataset.csv"

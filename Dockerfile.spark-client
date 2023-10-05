@@ -1,0 +1,33 @@
+FROM ubuntu
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install software-properties-common -y
+RUN apt-get install vim -y
+RUN apt-get install ssh -y
+RUN apt-get install openjdk-18-jdk -y
+
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-arm64" >> ~/.bashrc
+
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install python3.11 -y
+RUN apt-get install pip -y
+RUN apt-get install python3.11-venv -y
+RUN python3.11 -m venv python3.11
+
+RUN apt-get install wget
+RUN wget https://dlcdn.apache.org/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz
+RUN tar xvzf spark-3.4.1-bin-hadoop3.tgz
+RUN mv spark-3.4.1-bin-hadoop3/ spark/
+RUN rm spark-3.4.1-bin-hadoop3.tgz
+
+RUN pip install jupyter
+RUN echo "export PYSPARK_DRIVER_PYTHON=jupyter" >> ~/.bashrc
+RUN echo "export PYSPARK_DRIVER_PYTHON_OPTS='lab --ip 0.0.0.0 --no-browser --allow-root --port 8889'" >> ~/.bashrc
+
+RUN echo "export SPARK_HOME=/spark" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
+RUN echo "export PYSPARK_PYTHON=python3.11" >> ~/.bashrc
+
+COPY ./code /code
+COPY ./conf /spark/conf
+CMD bash
