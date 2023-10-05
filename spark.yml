@@ -1,0 +1,75 @@
+services:
+  spark-master:
+    image: spark
+    container_name: spark-master
+    hostname: "spark-master"
+    stdin_open: true
+    tty: true
+    command: "/spark/sbin/start-master.sh"
+    environment:
+      - SPARK_NO_DAEMONIZE=TRUE
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+      - "4040:4040"
+    #healthcheck:
+    networks:
+      - spark-net
+    volumes:
+      - spark-vol:/mnt/data
+    
+  spark-client:
+    image: spark
+    container_name: spark-client
+    hostname: "spark-client"
+    stdin_open: true
+    tty: true
+    command: bash
+    environment:
+      - SPARK_NO_DAEMONIZE=TRUE
+    networks:
+      - spark-net
+    volumes_from:
+      - spark-master
+
+  spark-worker-1:
+    image: spark
+    container_name: spark-worker-1
+    hostname: spark-worker-1
+    stdin_open: true
+    tty: true
+    command: "/spark/sbin/start-worker.sh spark://spark-master:7077"
+    environment:
+      - SPARK_NO_DAEMONIZE=TRUE
+    depends_on:
+      - spark-master
+    networks:
+      - spark-net
+    volumes_from:
+      - spark-master
+
+  spark-worker-2:
+    image: spark
+    container_name: spark-worker-2
+    hostname: spark-worker-2
+    stdin_open: true
+    tty: true
+    command: "/spark/sbin/start-worker.sh spark://spark-master:7077"
+    environment:
+      - SPARK_NO_DAEMONIZE=TRUE
+    depends_on:
+      - spark-master
+    #environment:
+      #- VAR=foo
+    networks:
+      - spark-net
+    volumes_from:
+      - spark-master
+
+networks:
+  spark-net:
+    name: spark-net
+
+volumes:
+  spark-vol:
+    name: spark-vol

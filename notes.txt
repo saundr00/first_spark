@@ -3,7 +3,8 @@ sudo docker network create --driver bridge first-spark-net
 
 sudo docker run -itd --rm -v first-spark-vol:/mnt/data --network first-spark-net \
   --hostname spark-master \
-  -p 7077:7077 -p 4040:4040 -p 8080:8080 --name spark-master spark bash
+  -p 7077:7077 -p 4040:4040 -p 8080:8080 \
+  --name spark-master spark bash
 sudo docker run -itd --rm -v first-spark-vol:/mnt/data --network first-spark-net \
   --hostname spark-worker-1 \
   --name spark-worker-1 spark bash
@@ -56,3 +57,7 @@ sudo docker exec -it docker-master bash -c "spark-submit"
 
 $SPARK_HOME/sbin/start-master.sh
 $SPARK_HOME/sbin/start-worker.sh spark://spark-master:7077
+
+
+sudo docker compose -f spark.yml up -d
+sudo docker compose -f spark.yml down
