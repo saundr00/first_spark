@@ -2,8 +2,8 @@ FROM ubuntu
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install software-properties-common -y
-RUN apt-get install vim
-RUN apt-get install ssh
+RUN apt-get install vim -y
+RUN apt-get install ssh -y
 RUN apt-get install openjdk-18-jdk -y
 
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-arm64" >> ~/.bashrc
@@ -24,6 +24,6 @@ RUN echo "export SPARK_HOME=/spark" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 RUN echo "export PYSPARK_PYTHON=python3.11" >> ~/.bashrc
 
-#COPY . .
-#RUN dbt deps
+COPY ./code /code
+COPY ./conf /spark/conf
 CMD bash
