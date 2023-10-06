@@ -83,8 +83,42 @@ services:
       - "8082:8081"
     depends_on:
       - spark-master
-    #environment:
-      #- VAR=foo
+    networks:
+      - spark-net
+    volumes_from:
+      - spark-master
+
+  spark-worker-3:
+    image: spark
+    container_name: spark-worker-3
+    hostname: spark-worker-3
+    stdin_open: true
+    tty: true
+    command: "/spark/sbin/start-worker.sh spark://spark-master:7077"
+    environment:
+      - SPARK_NO_DAEMONIZE=TRUE
+    ports:
+      - "8083:8081"
+    depends_on:
+      - spark-master
+    networks:
+      - spark-net
+    volumes_from:
+      - spark-master
+
+  spark-worker-4:
+    image: spark
+    container_name: spark-worker-4
+    hostname: spark-worker-4
+    stdin_open: true
+    tty: true
+    command: "/spark/sbin/start-worker.sh spark://spark-master:7077"
+    environment:
+      - SPARK_NO_DAEMONIZE=TRUE
+    ports:
+      - "8084:8081"
+    depends_on:
+      - spark-master
     networks:
       - spark-net
     volumes_from:
