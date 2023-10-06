@@ -4,6 +4,7 @@ RUN apt-get upgrade -y
 RUN apt-get install software-properties-common -y
 RUN apt-get install vim -y
 RUN apt-get install ssh -y
+RUN apt-get install postgresql-client -y
 RUN apt-get install openjdk-18-jdk -y
 
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-arm64" >> ~/.bashrc

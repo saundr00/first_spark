@@ -58,3 +58,16 @@ sudo docker compose -f spark.yml up -d
 sudo docker compose -f spark.yml down
 
 pyspark --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension"
+
+docker exec -u 0 -it metastore-standalone bash
+docker exec -it metastore-standalone bash
+
+docker run -d -p 9083:9083 --env SERVICE_NAME=metastore \
+  --name metastore-standalone --network spark-net \
+  apache/hive:3.1.3
+
+docker cp postgresql.42.6.0.jar metastore-standalone:/lib/
+
+schematool -dbType postgres -driver org.postgresql.Driver \
+  -url jdbc:postgresql://postgres-spark-metastore:5432/metastore_db \
+  -userName hive -passWord hive -initSchema

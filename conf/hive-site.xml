@@ -19,4 +19,8 @@
       <value>hive</value>
       <description>password to use against metastore database</description>
     </property>
+    <property>
+      <name>hive.metastore.local</name>
+      <value>true</value>
+    </property>
 </configuration>

@@ -6,6 +6,7 @@ services:
       - POSTGRES_DB=metastore_db
       - POSTGRES_USER=hive
       - POSTGRES_PASSWORD=hive
+      - PGDATA=/mnt/pg-data/data
     ports:
       - 5432:5432
     networks:
