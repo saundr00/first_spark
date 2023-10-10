@@ -16,6 +16,28 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: metastore_db; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE metastore_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
+
+
+ALTER DATABASE metastore_db OWNER TO postgres;
+
+\connect metastore_db
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -1231,6 +1253,612 @@ ALTER TABLE public.write_set OWNER TO postgres;
 --
 
 ALTER TABLE ONLY public."MASTER_KEYS" ALTER COLUMN "KEY_ID" SET DEFAULT nextval('public."MASTER_KEYS_KEY_ID_seq"'::regclass);
+
+
+--
+-- Data for Name: BUCKETING_COLS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."BUCKETING_COLS" ("SD_ID", "BUCKET_COL_NAME", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: CDS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."CDS" ("CD_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: COLUMNS_V2; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."COLUMNS_V2" ("CD_ID", "COMMENT", "COLUMN_NAME", "TYPE_NAME", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: CTLGS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."CTLGS" ("CTLG_ID", "NAME", "DESC", "LOCATION_URI") FROM stdin;
+1	hive	Default catalog for Hive	TBD
+\.
+
+
+--
+-- Data for Name: DATABASE_PARAMS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."DATABASE_PARAMS" ("DB_ID", "PARAM_KEY", "PARAM_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: DBS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."DBS" ("DB_ID", "DESC", "DB_LOCATION_URI", "NAME", "OWNER_NAME", "OWNER_TYPE", "CTLG_NAME") FROM stdin;
+\.
+
+
+--
+-- Data for Name: DB_PRIVS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."DB_PRIVS" ("DB_GRANT_ID", "CREATE_TIME", "DB_ID", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "DB_PRIV", "AUTHORIZER") FROM stdin;
+\.
+
+
+--
+-- Data for Name: DELEGATION_TOKENS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."DELEGATION_TOKENS" ("TOKEN_IDENT", "TOKEN") FROM stdin;
+\.
+
+
+--
+-- Data for Name: FUNCS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."FUNCS" ("FUNC_ID", "CLASS_NAME", "CREATE_TIME", "DB_ID", "FUNC_NAME", "FUNC_TYPE", "OWNER_NAME", "OWNER_TYPE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: FUNC_RU; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."FUNC_RU" ("FUNC_ID", "RESOURCE_TYPE", "RESOURCE_URI", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: GLOBAL_PRIVS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."GLOBAL_PRIVS" ("USER_GRANT_ID", "CREATE_TIME", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "USER_PRIV", "AUTHORIZER") FROM stdin;
+\.
+
+
+--
+-- Data for Name: IDXS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."IDXS" ("INDEX_ID", "CREATE_TIME", "DEFERRED_REBUILD", "INDEX_HANDLER_CLASS", "INDEX_NAME", "INDEX_TBL_ID", "LAST_ACCESS_TIME", "ORIG_TBL_ID", "SD_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: INDEX_PARAMS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."INDEX_PARAMS" ("INDEX_ID", "PARAM_KEY", "PARAM_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: I_SCHEMA; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."I_SCHEMA" ("SCHEMA_ID", "SCHEMA_TYPE", "NAME", "DB_ID", "COMPATIBILITY", "VALIDATION_LEVEL", "CAN_EVOLVE", "SCHEMA_GROUP", "DESCRIPTION") FROM stdin;
+\.
+
+
+--
+-- Data for Name: KEY_CONSTRAINTS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."KEY_CONSTRAINTS" ("CHILD_CD_ID", "CHILD_INTEGER_IDX", "CHILD_TBL_ID", "PARENT_CD_ID", "PARENT_INTEGER_IDX", "PARENT_TBL_ID", "POSITION", "CONSTRAINT_NAME", "CONSTRAINT_TYPE", "UPDATE_RULE", "DELETE_RULE", "ENABLE_VALIDATE_RELY", "DEFAULT_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: MASTER_KEYS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."MASTER_KEYS" ("KEY_ID", "MASTER_KEY") FROM stdin;
+\.
+
+
+--
+-- Data for Name: METASTORE_DB_PROPERTIES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."METASTORE_DB_PROPERTIES" ("PROPERTY_KEY", "PROPERTY_VALUE", "DESCRIPTION") FROM stdin;
+\.
+
+
+--
+-- Data for Name: MV_CREATION_METADATA; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."MV_CREATION_METADATA" ("MV_CREATION_METADATA_ID", "CAT_NAME", "DB_NAME", "TBL_NAME", "TXN_LIST", "MATERIALIZATION_TIME") FROM stdin;
+\.
+
+
+--
+-- Data for Name: MV_TABLES_USED; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."MV_TABLES_USED" ("MV_CREATION_METADATA_ID", "TBL_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: NOTIFICATION_LOG; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."NOTIFICATION_LOG" ("NL_ID", "EVENT_ID", "EVENT_TIME", "EVENT_TYPE", "CAT_NAME", "DB_NAME", "TBL_NAME", "MESSAGE", "MESSAGE_FORMAT") FROM stdin;
+\.
+
+
+--
+-- Data for Name: NOTIFICATION_SEQUENCE; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."NOTIFICATION_SEQUENCE" ("NNI_ID", "NEXT_EVENT_ID") FROM stdin;
+1	1
+\.
+
+
+--
+-- Data for Name: NUCLEUS_TABLES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."NUCLEUS_TABLES" ("CLASS_NAME", "TABLE_NAME", "TYPE", "OWNER", "VERSION", "INTERFACE_NAME") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PARTITIONS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PARTITIONS" ("PART_ID", "CREATE_TIME", "LAST_ACCESS_TIME", "PART_NAME", "SD_ID", "TBL_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PARTITION_EVENTS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PARTITION_EVENTS" ("PART_NAME_ID", "CAT_NAME", "DB_NAME", "EVENT_TIME", "EVENT_TYPE", "PARTITION_NAME", "TBL_NAME") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PARTITION_KEYS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PARTITION_KEYS" ("TBL_ID", "PKEY_COMMENT", "PKEY_NAME", "PKEY_TYPE", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PARTITION_KEY_VALS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PARTITION_KEY_VALS" ("PART_ID", "PART_KEY_VAL", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PARTITION_PARAMS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PARTITION_PARAMS" ("PART_ID", "PARAM_KEY", "PARAM_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PART_COL_PRIVS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PART_COL_PRIVS" ("PART_COLUMN_GRANT_ID", "COLUMN_NAME", "CREATE_TIME", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PART_ID", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "PART_COL_PRIV", "AUTHORIZER") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PART_COL_STATS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PART_COL_STATS" ("CS_ID", "CAT_NAME", "DB_NAME", "TABLE_NAME", "PARTITION_NAME", "COLUMN_NAME", "COLUMN_TYPE", "PART_ID", "LONG_LOW_VALUE", "LONG_HIGH_VALUE", "DOUBLE_LOW_VALUE", "DOUBLE_HIGH_VALUE", "BIG_DECIMAL_LOW_VALUE", "BIG_DECIMAL_HIGH_VALUE", "NUM_NULLS", "NUM_DISTINCTS", "BIT_VECTOR", "AVG_COL_LEN", "MAX_COL_LEN", "NUM_TRUES", "NUM_FALSES", "LAST_ANALYZED") FROM stdin;
+\.
+
+
+--
+-- Data for Name: PART_PRIVS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."PART_PRIVS" ("PART_GRANT_ID", "CREATE_TIME", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PART_ID", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "PART_PRIV", "AUTHORIZER") FROM stdin;
+\.
+
+
+--
+-- Data for Name: ROLES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."ROLES" ("ROLE_ID", "CREATE_TIME", "OWNER_NAME", "ROLE_NAME") FROM stdin;
+\.
+
+
+--
+-- Data for Name: ROLE_MAP; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."ROLE_MAP" ("ROLE_GRANT_ID", "ADD_TIME", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "ROLE_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SCHEMA_VERSION; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SCHEMA_VERSION" ("SCHEMA_VERSION_ID", "SCHEMA_ID", "VERSION", "CREATED_AT", "CD_ID", "STATE", "DESCRIPTION", "SCHEMA_TEXT", "FINGERPRINT", "SCHEMA_VERSION_NAME", "SERDE_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SDS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SDS" ("SD_ID", "INPUT_FORMAT", "IS_COMPRESSED", "LOCATION", "NUM_BUCKETS", "OUTPUT_FORMAT", "SERDE_ID", "CD_ID", "IS_STOREDASSUBDIRECTORIES") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SD_PARAMS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SD_PARAMS" ("SD_ID", "PARAM_KEY", "PARAM_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SEQUENCE_TABLE; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SEQUENCE_TABLE" ("SEQUENCE_NAME", "NEXT_VAL") FROM stdin;
+org.apache.hadoop.hive.metastore.model.MNotificationLog	1
+\.
+
+
+--
+-- Data for Name: SERDES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SERDES" ("SERDE_ID", "NAME", "SLIB", "DESCRIPTION", "SERIALIZER_CLASS", "DESERIALIZER_CLASS", "SERDE_TYPE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SERDE_PARAMS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SERDE_PARAMS" ("SERDE_ID", "PARAM_KEY", "PARAM_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SKEWED_COL_NAMES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SKEWED_COL_NAMES" ("SD_ID", "SKEWED_COL_NAME", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SKEWED_COL_VALUE_LOC_MAP; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SKEWED_COL_VALUE_LOC_MAP" ("SD_ID", "STRING_LIST_ID_KID", "LOCATION") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SKEWED_STRING_LIST; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SKEWED_STRING_LIST" ("STRING_LIST_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SKEWED_STRING_LIST_VALUES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SKEWED_STRING_LIST_VALUES" ("STRING_LIST_ID", "STRING_LIST_VALUE", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SKEWED_VALUES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SKEWED_VALUES" ("SD_ID_OID", "STRING_LIST_ID_EID", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SORT_COLS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."SORT_COLS" ("SD_ID", "COLUMN_NAME", "ORDER", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TABLE_PARAMS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TABLE_PARAMS" ("TBL_ID", "PARAM_KEY", "PARAM_VALUE") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TAB_COL_STATS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TAB_COL_STATS" ("CS_ID", "CAT_NAME", "DB_NAME", "TABLE_NAME", "COLUMN_NAME", "COLUMN_TYPE", "TBL_ID", "LONG_LOW_VALUE", "LONG_HIGH_VALUE", "DOUBLE_LOW_VALUE", "DOUBLE_HIGH_VALUE", "BIG_DECIMAL_LOW_VALUE", "BIG_DECIMAL_HIGH_VALUE", "NUM_NULLS", "NUM_DISTINCTS", "BIT_VECTOR", "AVG_COL_LEN", "MAX_COL_LEN", "NUM_TRUES", "NUM_FALSES", "LAST_ANALYZED") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TBLS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TBLS" ("TBL_ID", "CREATE_TIME", "DB_ID", "LAST_ACCESS_TIME", "OWNER", "OWNER_TYPE", "RETENTION", "SD_ID", "TBL_NAME", "TBL_TYPE", "VIEW_EXPANDED_TEXT", "VIEW_ORIGINAL_TEXT", "IS_REWRITE_ENABLED") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TBL_COL_PRIVS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TBL_COL_PRIVS" ("TBL_COLUMN_GRANT_ID", "COLUMN_NAME", "CREATE_TIME", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "TBL_COL_PRIV", "TBL_ID", "AUTHORIZER") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TBL_PRIVS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TBL_PRIVS" ("TBL_GRANT_ID", "CREATE_TIME", "GRANT_OPTION", "GRANTOR", "GRANTOR_TYPE", "PRINCIPAL_NAME", "PRINCIPAL_TYPE", "TBL_PRIV", "TBL_ID", "AUTHORIZER") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TYPES; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TYPES" ("TYPES_ID", "TYPE_NAME", "TYPE1", "TYPE2") FROM stdin;
+\.
+
+
+--
+-- Data for Name: TYPE_FIELDS; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."TYPE_FIELDS" ("TYPE_NAME", "COMMENT", "FIELD_NAME", "FIELD_TYPE", "INTEGER_IDX") FROM stdin;
+\.
+
+
+--
+-- Data for Name: VERSION; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."VERSION" ("VER_ID", "SCHEMA_VERSION", "VERSION_COMMENT") FROM stdin;
+1	3.1.0	Hive release version 3.1.0
+\.
+
+
+--
+-- Data for Name: WM_MAPPING; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."WM_MAPPING" ("MAPPING_ID", "RP_ID", "ENTITY_TYPE", "ENTITY_NAME", "POOL_ID", "ORDERING") FROM stdin;
+\.
+
+
+--
+-- Data for Name: WM_POOL; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."WM_POOL" ("POOL_ID", "RP_ID", "PATH", "ALLOC_FRACTION", "QUERY_PARALLELISM", "SCHEDULING_POLICY") FROM stdin;
+\.
+
+
+--
+-- Data for Name: WM_POOL_TO_TRIGGER; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."WM_POOL_TO_TRIGGER" ("POOL_ID", "TRIGGER_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: WM_RESOURCEPLAN; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."WM_RESOURCEPLAN" ("RP_ID", "NAME", "QUERY_PARALLELISM", "STATUS", "DEFAULT_POOL_ID") FROM stdin;
+\.
+
+
+--
+-- Data for Name: WM_TRIGGER; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."WM_TRIGGER" ("TRIGGER_ID", "RP_ID", "NAME", "TRIGGER_EXPRESSION", "ACTION_EXPRESSION", "IS_IN_UNMANAGED") FROM stdin;
+\.
+
+
+--
+-- Data for Name: aux_table; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.aux_table (mt_key1, mt_key2, mt_comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: compaction_queue; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.compaction_queue (cq_id, cq_database, cq_table, cq_partition, cq_state, cq_type, cq_tblproperties, cq_worker_id, cq_start, cq_run_as, cq_highest_write_id, cq_meta_info, cq_hadoop_job_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: completed_compactions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.completed_compactions (cc_id, cc_database, cc_table, cc_partition, cc_state, cc_type, cc_tblproperties, cc_worker_id, cc_start, cc_end, cc_run_as, cc_highest_write_id, cc_meta_info, cc_hadoop_job_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: completed_txn_components; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.completed_txn_components (ctc_txnid, ctc_database, ctc_table, ctc_partition, ctc_timestamp, ctc_writeid, ctc_update_delete) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hive_locks; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.hive_locks (hl_lock_ext_id, hl_lock_int_id, hl_txnid, hl_db, hl_table, hl_partition, hl_lock_state, hl_lock_type, hl_last_heartbeat, hl_acquired_at, hl_user, hl_host, hl_heartbeat_count, hl_agent_info, hl_blockedby_ext_id, hl_blockedby_int_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: materialization_rebuild_locks; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.materialization_rebuild_locks (mrl_txn_id, mrl_db_name, mrl_tbl_name, mrl_last_heartbeat) FROM stdin;
+\.
+
+
+--
+-- Data for Name: min_history_level; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.min_history_level (mhl_txnid, mhl_min_open_txnid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: next_compaction_queue_id; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.next_compaction_queue_id (ncq_next) FROM stdin;
+1
+\.
+
+
+--
+-- Data for Name: next_lock_id; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.next_lock_id (nl_next) FROM stdin;
+1
+\.
+
+
+--
+-- Data for Name: next_txn_id; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.next_txn_id (ntxn_next) FROM stdin;
+1
+\.
+
+
+--
+-- Data for Name: next_write_id; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.next_write_id (nwi_database, nwi_table, nwi_next) FROM stdin;
+\.
+
+
+--
+-- Data for Name: repl_txn_map; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.repl_txn_map (rtm_repl_policy, rtm_src_txn_id, rtm_target_txn_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: runtime_stats; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.runtime_stats (rs_id, create_time, weight, payload) FROM stdin;
+\.
+
+
+--
+-- Data for Name: txn_components; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.txn_components (tc_txnid, tc_database, tc_table, tc_partition, tc_operation_type, tc_writeid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: txn_to_write_id; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.txn_to_write_id (t2w_txnid, t2w_database, t2w_table, t2w_writeid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: txns; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.txns (txn_id, txn_state, txn_started, txn_last_heartbeat, txn_user, txn_host, txn_agent_info, txn_meta_info, txn_heartbeat_count, txn_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: write_set; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.write_set (ws_database, ws_table, ws_partition, ws_txnid, ws_commit_id, ws_operation_type) FROM stdin;
+\.
+
+
+--
+-- Name: MASTER_KEYS_KEY_ID_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."MASTER_KEYS_KEY_ID_seq"', 1, false);
 
 
 --
