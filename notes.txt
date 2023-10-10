@@ -91,7 +91,7 @@ docker buildx build \
 docker buildx build \
   --push \
   --platform linux/arm64/v8,linux/amd64 \
-  --tag saundr00/spark:v1 \
+  --tag saundr00/spark-client:v1 \
   --file Dockerfile.spark-client .
 
 
