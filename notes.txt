@@ -86,3 +86,6 @@ docker buildx build \
   --push \
   --platform linux/arm64,linux/amd64 \
   -t username/custom-nginx:v1 .
+
+pg_dump -U postgres --schema-only metastore_db > $HOME/metastore_db.sql
+docker cp spark-metastore-1:/root/metastore_db.sql .
