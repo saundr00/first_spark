@@ -77,17 +77,13 @@ docker run --rm -d -p 5432:5432 --env SERVICE_NAME=metastore \
   --name spark-metastore-1 -v ./db_init:/docker-entrypoint-initdb.d \
   spark-metastore
 
-
-
 docker cp postgresql-42.6.0.jar metastore-standalone:/lib/
 
 schematool -dbType postgres -driver org.postgresql.Driver \
   -url jdbc:postgresql://postgres-spark-metastore:5432/metastore_db \
   -userName hive -passWord hive -initSchema
 
-./schematool -dbType postgres -driver org.postgresql.Driver \
--url jdbc:postgresql://localhost:5432/metastore_db \
--userName postgres -passWord postgres -initSchema
+
 
 docker buildx build \
   --push \
@@ -99,7 +95,10 @@ docker run --rm -d -p 5432:5432 --env SERVICE_NAME=metastore \
   --name spark-metastore-standalone \
   spark-metastore
 docker exec -it spark-metastore-standalone bash
+cd /var/lib/postgres/apache-hive-3.1.2-bin/bin
+./schematool -dbType postgres -driver org.postgresql.Driver \
+-url jdbc:postgresql://localhost:5432/metastore_db \
+-userName postgres -passWord postgres -initSchema
 pg_dump -U postgres metastore_db > $HOME/metastore_db.sql
-#pg_dump -U postgres --schema-only metastore_db > $HOME/metastore_db.sql
 exit
 docker cp spark-metastore-1:/root/metastore_db.sql ./db_init/init_01.sql
