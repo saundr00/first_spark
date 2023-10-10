@@ -4,8 +4,8 @@ services:
     container_name: postgres-spark-metastore
     environment:
       - POSTGRES_DB=metastore_db
-      - POSTGRES_USER=hive
-      - POSTGRES_PASSWORD=hive
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       - PGDATA=/mnt/pg-data/data
     ports:
       - 5432:5432
