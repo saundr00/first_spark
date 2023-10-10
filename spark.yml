@@ -13,6 +13,7 @@ services:
       - spark-net
     volumes:
       - pg-data:/mnt/pg-data
+      - ./db_init:/docker-entrypoint-initdb.d
 
   spark-master:
     image: spark
