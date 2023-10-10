@@ -72,6 +72,13 @@ docker run --rm -d -p 5432:5432 \
   --name spark-metastore-1 -v ./db_init:/docker-entrypoint-initdb.d\
   postgres
 
+docker run --rm -d -p 5432:5432 --env SERVICE_NAME=metastore \
+  --env POSTGRES_USER=postgres --env POSTGRES_PASSWORD=postgres \
+  --name spark-metastore-1 -v ./db_init:/docker-entrypoint-initdb.d \
+  spark-metastore
+
+
+
 docker cp postgresql-42.6.0.jar metastore-standalone:/lib/
 
 schematool -dbType postgres -driver org.postgresql.Driver \
@@ -87,5 +94,12 @@ docker buildx build \
   --platform linux/arm64,linux/amd64 \
   -t username/custom-nginx:v1 .
 
-pg_dump -U postgres --schema-only metastore_db > $HOME/metastore_db.sql
-docker cp spark-metastore-1:/root/metastore_db.sql .
+docker run --rm -d -p 5432:5432 --env SERVICE_NAME=metastore \
+  --env POSTGRES_USER=postgres --env POSTGRES_PASSWORD=postgres \
+  --name spark-metastore-standalone \
+  spark-metastore
+docker exec -it spark-metastore-standalone bash
+pg_dump -U postgres metastore_db > $HOME/metastore_db.sql
+#pg_dump -U postgres --schema-only metastore_db > $HOME/metastore_db.sql
+exit
+docker cp spark-metastore-1:/root/metastore_db.sql ./db_init/init_01.sql
