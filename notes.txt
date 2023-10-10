@@ -53,6 +53,7 @@ echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 
 sudo docker build -f Dockerfile.spark -t spark .
 sudo docker build -f Dockerfile.spark-client -t spark-client .
+sudo docker build -f Dockerfile.metastore -t spark-metastore .
 
 sudo docker compose -f spark.yml up -d
 sudo docker compose -f spark.yml down
@@ -62,15 +63,24 @@ pyspark --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension"
 docker exec -u 0 -it metastore-standalone bash
 docker exec -it metastore-standalone bash
 
-docker run -d -p 9083:9083 --env SERVICE_NAME=metastore \
+docker run -d -p 9084:9083 --env SERVICE_NAME=metastore \
   --name metastore-standalone --network spark-net \
   apache/hive:3.1.3
 
-docker cp postgresql.42.6.0.jar metastore-standalone:/lib/
+docker run --rm -d -p 9083:9083 --env SERVICE_NAME=metastore \
+  --env POSTGRES_USER=postgres --env POSTGRES_PASSWORD=postgres \
+  --name spark-metastore-1 -v ./db_init:/docker-entrypoint-initdb.d\
+  spark-metastore
+
+docker cp postgresql-42.6.0.jar metastore-standalone:/lib/
 
 schematool -dbType postgres -driver org.postgresql.Driver \
   -url jdbc:postgresql://postgres-spark-metastore:5432/metastore_db \
   -userName hive -passWord hive -initSchema
+
+./schematool -dbType postgres -driver org.postgresql.Driver \
+-url jdbc:postgresql://localhost:5432/metastore_db \
+-userName postgres -passWord postgres -initSchema
 
 docker buildx build \
   --push \
