@@ -79,10 +79,21 @@ docker run --rm -d -p 5432:5432 --env SERVICE_NAME=metastore \
 
 docker cp postgresql-42.6.0.jar metastore-standalone:/lib/
 
+docker buildx create --name mybuilder
+docker buildx use mybuilder
+
 docker buildx build \
   --push \
-  --platform linux/arm64,linux/amd64 \
-  -t username/custom-nginx:v1 .
+  --platform linux/arm64/v8,linux/amd64 \
+  --tag saundr00/spark:v1 \
+  --file Dockerfile.spark .
+
+docker buildx build \
+  --push \
+  --platform linux/arm64/v8,linux/amd64 \
+  --tag saundr00/spark:v1 \
+  --file Dockerfile.spark-client .
+
 
 docker run --rm -d -p 5432:5432 --env SERVICE_NAME=metastore \
   --env POSTGRES_USER=postgres --env POSTGRES_PASSWORD=postgres \
