@@ -73,6 +73,6 @@ schematool -dbType postgres -driver org.postgresql.Driver \
   -userName hive -passWord hive -initSchema
 
 docker buildx build \
---push \
---platform linux/arm64,linux/amd64 \
--t username/custom-nginx:v1 .
+  --push \
+  --platform linux/arm64,linux/amd64 \
+  -t username/custom-nginx:v1 .

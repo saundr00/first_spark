@@ -1,0 +1,15 @@
+FROM postgres
+
+RUN echo "PGDATA=/mnt/pg-data/data" >> ~/.bashrc
+RUN echo "POSTGRES_DB=metastore_db" >> ~/.bashrc
+RUN echo "POSTGRES_USER=hive" >> ~/.bashrc
+RUN echo "POSTGRES_PASSWORD=hive" >> ~/.bashrc
+
+RUN wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
+RUN tar -xvzf /apache-hive-3.1.2-bin/tar/gz
+RUN rm /lib/postgresql-9.4.1208.jre7.jar
+COPY ./postgresql.42.6.0.jar /lib/
+
+#RUN schematool -dbType postgres -driver org.postgresql.Driver \
+#  -url jdbc:postgresql://localhost:5432/metastore_db \
+#  -userName hive -passWord hive -initSchema
