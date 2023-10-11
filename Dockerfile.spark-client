@@ -1,5 +1,4 @@
 FROM saundr00/spark:v1
-ARG TARGETPLATFORM
 
 RUN pip install jupyter
 RUN echo "export PYSPARK_DRIVER_PYTHON=jupyter" >> ~/.bashrc
