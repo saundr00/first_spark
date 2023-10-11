@@ -58,7 +58,6 @@ sudo docker build -f Dockerfile.metastore -t spark-metastore .
 sudo docker compose -f spark.yml up -d
 sudo docker compose -f spark.yml down
 
-export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
 pyspark --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension"
 http://52.142.49.246:8889/lab?token=679d76f935190f33ba910181a2baf4f64f7a3724efbde89b
 
