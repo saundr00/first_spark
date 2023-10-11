@@ -36,4 +36,5 @@ fi
 COPY postgresql-42.6.0.jar /spark/jars
 COPY ./code /code
 COPY ./conf /spark/conf
+
 CMD bash
