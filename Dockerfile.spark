@@ -26,7 +26,7 @@ RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 RUN echo "export PYSPARK_PYTHON=python3.11" >> ~/.bashrc
 RUN echo "export DATA_DIR=/mnt/data" >> ~/.bashrc
 
-RUN if [ ${TARGETPLATFORM} = 'linux/arm64/v8' ]; \
+RUN if [ ${TARGETPLATFORM} = 'linux/arm64' ]; \
 then \
    echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-arm64" >> ~/.bashrc ; \
 else \
