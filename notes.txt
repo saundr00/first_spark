@@ -60,6 +60,7 @@ sudo docker compose -f spark.yml down
 
 pyspark --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension"
 http://52.142.49.246:8889/lab?token=679d76f935190f33ba910181a2baf4f64f7a3724efbde89b
+http://104.41.153.38:8889/lab?token=8f32f6672e53f283a63a613adb47d1694c2b9d88fd632a2c
 
 docker exec -u 0 -it metastore-standalone bash
 docker exec -it metastore-standalone bash
