@@ -47,7 +47,7 @@ services:
     stdin_open: true
     tty: true
     #command: "spark/bin/pyspark"
-    command: bash
+    command: /bin/ash
     environment:
       - SPARK_NO_DAEMONIZE=TRUE
     ports:

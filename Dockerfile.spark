@@ -1,5 +1,6 @@
 FROM alpine
 ARG TARGETPLATFORM
+RUN apk add --no-cache bash
 RUN apk add --no-cache openjdk17
 RUN apk add --no-cache python3 py3-pip py3-virtualenv
 RUN apk add --no-cache wget
@@ -16,9 +17,9 @@ RUN echo "export DATA_DIR=/mnt/data" >> ~/.bashrc
 
 RUN if [ ${TARGETPLATFORM} = 'linux/arm64' ]; \
 then \
-   echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-arm64" >> ~/.bashrc ; \
+   echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc ; \
 else \
-   echo "export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64" >> ~/.bashrc ; \
+   echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc ; \
 fi
 
 COPY postgresql-42.6.0.jar /spark/jars
