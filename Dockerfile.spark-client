@@ -1,6 +1,6 @@
-FROM saundr00/spark:v1
+FROM spark
 
-RUN pip install jupyter
+RUN apk add --no-cache jupyter-notebook
 RUN echo "export PYSPARK_DRIVER_PYTHON=jupyter" >> ~/.bashrc
 RUN echo "export PYSPARK_DRIVER_PYTHON_OPTS='lab --ip 0.0.0.0 --no-browser --allow-root --port 8889'" >> ~/.bashrc
 
