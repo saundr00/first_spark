@@ -1,31 +1,33 @@
-FROM alpine
-ARG TARGETPLATFORM
-RUN apk add --no-cache bash
-RUN apk add --no-cache libc6-compat
-RUN apk add --no-cache openjdk17
-RUN apk add --no-cache python3 py3-pip py3-virtualenv
-RUN apk add --no-cache wget
+FROM apache/spark:3.4.1
 
-RUN wget https://dlcdn.apache.org/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz
-RUN tar xvzf spark-3.4.1-bin-hadoop3.tgz
-RUN mv spark-3.4.1-bin-hadoop3/ spark/
-RUN rm spark-3.4.1-bin-hadoop3.tgz
+USER root
+RUN \
+  apt-get update && \
+  apt-get install -y \
+    software-properties-common  && \
+  add-apt-repository -y \
+    ppa:deadsnakes/ppa && \
+  apt-get update && \
+  apt-get install -y \
+    python3.11 \
+    python3.11-distutils \
+    python3.11-venv && \
+  curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 
-RUN echo "export SPARK_HOME=/spark" >> ~/.bashrc
+COPY postgresql-42.6.0.jar /opt/spark/jars
+COPY ./code /code
+COPY ./conf /opt/spark/conf
+
+USER root
+RUN mkdir /home/spark
+RUN chown spark /home/spark
+RUN chgrp spark /home/spark
+
+USER spark
+RUN echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin" >> ~/.bashrc
 RUN echo "export PYSPARK_PYTHON=python3.11" >> ~/.bashrc
 RUN echo "export DATA_DIR=/mnt/data" >> ~/.bashrc
+RUN echo "alias pyspark='pyspark --conf \"spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension\"'" >> ~/.bashrc
 
-RUN if [ ${TARGETPLATFORM} = 'linux/arm64' ]; \
-then \
-   echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc ; \
-else \
-   echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc ; \
-   echo "export LD_LIBRARY_PATH=/lib64" >> >> ~/.bashrc ; \
-fi
-
-COPY postgresql-42.6.0.jar /spark/jars
-COPY ./code /code
-COPY ./conf /spark/conf
-
-CMD bash
+CMD  bash
