@@ -14,6 +14,19 @@ services:
       - pg-data:/mnt/pg-data
       - ./db_init:/docker-entrypoint-initdb.d
 
+  set-permissions:
+    image: saundr00/spark:v1
+    container_name: set-permissions
+    hostname: set-permissions
+    depends_on:
+      - postgres
+    user: root
+    command: chown -R spark:spark /mnt/data
+    networks:
+      - spark-net
+    volumes:
+      - spark-vol:/mnt/data
+
   spark-master:
     image: saundr00/spark:v1
     container_name: spark-master
@@ -31,7 +44,7 @@ services:
       - "4040:4040"
     #healthcheck:
     depends_on:
-      - postgres
+      - set-permissions
     networks:
       - spark-net
     volumes:

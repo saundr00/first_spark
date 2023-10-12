@@ -14,14 +14,14 @@ RUN \
     python3.11-venv && \
   curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 
-COPY postgresql-42.6.0.jar /opt/spark/jars
-COPY ./code /code
-COPY ./conf /opt/spark/conf
-
 USER root
 RUN mkdir /home/spark
 RUN chown spark /home/spark
 RUN chgrp spark /home/spark
+
+COPY postgresql-42.6.0.jar /opt/spark/jars
+COPY --chown=spark:spark ./code /home/spark/code
+COPY ./conf /opt/spark/conf
 
 USER spark
 RUN echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
