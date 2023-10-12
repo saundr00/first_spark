@@ -1,6 +1,7 @@
 FROM alpine
 ARG TARGETPLATFORM
 RUN apk add --no-cache bash
+RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache openjdk17
 RUN apk add --no-cache python3 py3-pip py3-virtualenv
 RUN apk add --no-cache wget
@@ -20,6 +21,7 @@ then \
    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc ; \
 else \
    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc ; \
+   echo "export LD_LIBRARY_PATH=/lib64" >> >> ~/.bashrc ; \
 fi
 
 COPY postgresql-42.6.0.jar /spark/jars
