@@ -1,5 +1,5 @@
-from __future__ import print_function
 from pyspark.sql import SparkSession
+import os
 
 if __name__ == "__main__":
     spark = (SparkSession
@@ -7,9 +7,9 @@ if __name__ == "__main__":
         .appName("MnMCount")
         .getOrCreate())
 
-    mnm_file = "/mnt/data/mnm_parquet"
+    mnm_file = os.path.join(os.environ["DATA_DIR"], "mnm_delta")
 
-    mnm_df = (spark.read.format("parquet")
+    mnm_df = (spark.read.format("delta")
         .load(mnm_file))
     mnm_df.show(n=5, truncate=False)
 
