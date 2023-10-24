@@ -1,0 +1,5 @@
+1|Tomato Soup|Food|2.50
+2|Grilled Cheese Sandwich|Food|4.99
+3|Spoon|Tableware|1.99
+4|Napkins|Tableware|0.99
+5|Toaster|Kitchen Appliances|14.99

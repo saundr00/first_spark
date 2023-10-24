@@ -1,0 +1,2 @@
+1|Store 1|New Store Manager|1 Store Lane||New York|NY|USA|12345|10000
+2|Store 2|Store 2 Manager|2 Store Lane||New York|NY|USA|12345|12000
